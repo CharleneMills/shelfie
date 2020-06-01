@@ -3,21 +3,21 @@
 module.exports = {
     addProduct: (req, res) => {
         //bring in what you need
-        const {img, name, price} = req.body;
-
+        const {name, price, img} = req.body;
+            console.log(req.body)
         //get the database
         const db = req.app.get('db');
 
         //run sql query db then the name of your file
-        db.add_product(img, name, price)
+        db.add_product(name, price, img)
         .then(product => res.status(200).send(product))
         .catch(err => res.status(500).send(err));
     },
 
     getProducts: (req, res) => {
-        const dbInstance = req.app.get('db');
+        const db = req.app.get('db');
 
-        dbInstance.get_inventory()
+        db.get_inventory()
         .then(products => res.status(200).send(products))
         .catch(err => res.status(500).send(err));
 
@@ -31,5 +31,17 @@ module.exports = {
         .then(() => res.sendStatus(200))
         .catch(err => res.status(500).send(err));
 
+    },
+
+    editProduct: (req, res) => {
+        const {id} = req.params;
+        const {name, price, img} = req.body;
+        const db = req.app.get('db');
+
+        db.edit_product(id, name, price, img)
+        .then(product => res.status(200).send(product))
+        .catch(err => res.status(500).send(err));
     }
+
+
 }

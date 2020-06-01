@@ -1,35 +1,31 @@
-import React, { Component } from 'react'
+import React from 'react';
+import {withRouter} from 'react-router-dom';
 
-class Product extends Component {
+function Product(props) {
 
-    constructor(){
-        super()
-
-        this.state = {
-            
-        }
-    }
-
-//Modules go here
-
-   render() {
-    
-    const {img, name, price} = this.props.thisProduct;
+    const {name, price, img, id} = props.thisProduct;
 
     return (
 
       <div className="productCard">
 
-          <div className="cardImg">
+        <div className="cardImg left">
             <img src={img}/>
-          </div>
-          <div>
-                <p>{name}</p>
-                <p>{price}</p>
-          </div>
+        </div>
+        <div className="left">
+            <div>
+                  <p>{name}</p>
+                  <p>${price}</p>
+            </div>
+            <div className="buttondiv">
+              <button onClick={() => props.history.push(`/form/${id}`)}>Edit</button>
+              <button onClick={() => props.deleteProduct(id)}>Delete</button>
+            </div>
+        </div> 
+         <div className="clearfix">&nbsp;</div>  
       </div>
     )
-}
+
 }
 
-export default Product;
+export default withRouter (Product);
